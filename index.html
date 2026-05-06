@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hızlı Su Siparişi</title>
+    <title>Keskin Su Sipariş Paneli</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -31,6 +31,7 @@
             border-radius: 24px;
             padding: 30px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
         }
 
         .brand {
@@ -40,12 +41,11 @@
 
         .brand h1 {
             color: var(--primary);
-            font-size: 22px;
+            font-size: 24px;
             margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
         }
 
         .type-selector {
@@ -99,7 +99,6 @@
         input:focus, textarea:focus {
             border-color: var(--primary);
             outline: none;
-            background: #fff;
         }
 
         .qty-container {
@@ -110,6 +109,7 @@
             padding: 10px;
             border-radius: 12px;
             justify-content: space-between;
+            border: 1px solid #e2e8f0;
         }
 
         .qty-btn {
@@ -144,11 +144,6 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: 0.2s;
-        }
-
-        .submit-btn:active {
-            transform: scale(0.97);
         }
 
         .info-text {
@@ -163,16 +158,16 @@
 
 <div class="order-card">
     <div class="brand">
-        <h1>💧 Su Sipariş Formu</h1>
+        <h1>💧 KESKİN SU</h1>
+        <p style="margin-top: 5px; color: #64748b; font-size: 14px;">Hızlı Sipariş Paneli</p>
     </div>
 
     <div class="type-selector">
-        <button id="btnOld" class="type-btn active" onclick="setMode('old')">Kayıtlı Müşteriyim</button>
-        <button id="btnNew" class="type-btn" onclick="setMode('new')">Yeni Müşteriyim</button>
+        <button id="btnOld" class="type-btn active" onclick="setMode('old')">Kayıtlıyım</button>
+        <button id="btnNew" class="type-btn" onclick="setMode('new')">Yeni Müşteri</button>
     </div>
 
     <div id="formContent">
-        <!-- Kayıtlı müşteri için sadece isim yeterli (WhatsApp'tan adresini zaten biliyorsun) -->
         <div id="oldFields">
             <div class="form-group">
                 <label>Adınız Soyadınız</label>
@@ -180,7 +175,6 @@
             </div>
         </div>
 
-        <!-- Yeni müşteri için detaylı alanlar -->
         <div id="newFields" style="display:none;">
             <div class="form-group">
                 <label>Adınız Soyadınız</label>
@@ -193,7 +187,7 @@
         </div>
 
         <div class="form-group">
-            <label>Sipariş Adedi (Damacana)</label>
+            <label>Sipariş Adedi</label>
             <div class="qty-container">
                 <button class="qty-btn" onclick="changeQty(-1)">-</button>
                 <span id="qtyDisplay">1</span>
@@ -202,12 +196,12 @@
         </div>
 
         <button class="submit-btn" onclick="sendOrder()">
-            Siparişi WhatsApp ile Gönder
+            Siparişi Tamamla
         </button>
     </div>
 
     <div class="info-text">
-        Tıkladığınızda WhatsApp uygulaması açılacaktır.
+        Keskin Su güvencesiyle kapınızda.
     </div>
 </div>
 
@@ -230,24 +224,28 @@
     }
 
     function sendOrder() {
-        const myPhone = "905366455131"; // Senin numaran
+        const myPhone = "905366455131"; 
         let message = "";
 
         if (mode === 'old') {
             const name = document.getElementById('custName').value;
             if (!name) return alert("Lütfen adınızı girin.");
-            message = `💧 *SU SİPARİŞİ (Kayıtlı Müşteri)*\n\n` +
-                      `👤 *İsim:* ${name}\n` +
-                      `📦 *Adet:* ${quantity} Damacana\n\n` +
-                      `Lütfen her zamanki adresime getirin.`;
+            message = `*KESKİN SU SİPARİŞİ*\n` +
+                      `--------------------------\n` +
+                      `👤 *Müşteri:* ${name} (Kayıtlı)\n` +
+                      `📦 *Adet:* ${quantity} Damacana\n` +
+                      `--------------------------\n` +
+                      `Lütfen kayıtlı adresime getirin.`;
         } else {
             const name = document.getElementById('newName').value;
             const address = document.getElementById('newAddress').value;
-            if (!name || !address) return alert("Lütfen isim ve adresinizi eksiksiz girin.");
-            message = `💧 *YENİ MÜŞTERİ SİPARİŞİ*\n\n` +
-                      `👤 *İsim:* ${name}\n` +
+            if (!name || !address) return alert("Lütfen bilgileri eksiksiz girin.");
+            message = `*KESKİN SU SİPARİŞİ (YENİ)*\n` +
+                      `--------------------------\n` +
+                      `👤 *Müşteri:* ${name}\n` +
                       `📍 *Adres:* ${address}\n` +
-                      `📦 *Adet:* ${quantity} Damacana`;
+                      `📦 *Adet:* ${quantity} Damacana\n` +
+                      `--------------------------`;
         }
 
         const url = `https://wa.me/${myPhone}?text=${encodeURIComponent(message)}`;
