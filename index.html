@@ -2,8 +2,16 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Keskin Su Sipariş Paneli</title>
+    
+    <!-- Mobil Uygulama (PWA) Meta Etiketleri -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Keskin Su">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3105/3105807.png">
+    <meta name="mobile-web-app-capable" content="yes">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,6 +21,7 @@
             --card: #ffffff;
         }
 
+        /* Sayfanın telefonda kaymasını engellemek için */
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg);
@@ -22,6 +31,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden;
         }
 
         .order-card {
@@ -29,129 +39,31 @@
             max-width: 400px;
             background: var(--card);
             border-radius: 24px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
         }
 
-        .brand {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+        .brand { text-align: center; margin-bottom: 20px; }
+        .brand h1 { color: var(--primary); font-size: 24px; margin: 0; font-weight: 800; text-transform: uppercase; }
 
-        .brand h1 {
-            color: var(--primary);
-            font-size: 24px;
-            margin: 0;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
+        .type-selector { display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px; margin-bottom: 20px; }
+        .type-btn { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; color: #64748b; background: transparent; }
+        .type-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-        .type-selector {
-            display: flex;
-            background: #f1f5f9;
-            padding: 5px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-        }
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 5px; }
 
-        .type-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-            color: #64748b;
-            background: transparent;
-        }
+        input, textarea { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 12px; font-size: 16px; box-sizing: border-box; font-family: inherit; }
+        input:focus { border-color: var(--primary); outline: none; }
 
-        .type-btn.active {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
+        .qty-container { display: flex; align-items: center; gap: 15px; background: #f8fafc; padding: 8px; border-radius: 12px; justify-content: space-between; border: 1px solid #e2e8f0; }
+        .qty-btn { width: 45px; height: 45px; border-radius: 10px; border: none; background: var(--primary); color: white; font-size: 24px; cursor: pointer; }
+        #qtyDisplay { font-size: 22px; font-weight: 800; color: var(--primary); }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #475569;
-            margin-bottom: 6px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 15px;
-            box-sizing: border-box;
-            transition: 0.2s;
-        }
-
-        input:focus, textarea:focus {
-            border-color: var(--primary);
-            outline: none;
-        }
-
-        .qty-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: #f8fafc;
-            padding: 10px;
-            border-radius: 12px;
-            justify-content: space-between;
-            border: 1px solid #e2e8f0;
-        }
-
-        .qty-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            border: none;
-            background: var(--primary);
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        #qtyDisplay {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--success);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .info-text {
-            text-align: center;
-            font-size: 12px;
-            color: #94a3b8;
-            margin-top: 15px;
-        }
+        .submit-btn { width: 100%; padding: 16px; background: var(--success); color: white; border: none; border-radius: 14px; font-size: 17px; font-weight: 700; cursor: pointer; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        
+        .footer-note { text-align: center; font-size: 11px; color: #94a3b8; margin-top: 15px; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -159,7 +71,7 @@
 <div class="order-card">
     <div class="brand">
         <h1>💧 KESKİN SU</h1>
-        <p style="margin-top: 5px; color: #64748b; font-size: 14px;">Hızlı Sipariş Paneli</p>
+        <p style="margin: 5px 0 0; color: #64748b; font-size: 13px;">Hızlı Sipariş Paneli</p>
     </div>
 
     <div class="type-selector">
@@ -171,7 +83,7 @@
         <div id="oldFields">
             <div class="form-group">
                 <label>Adınız Soyadınız</label>
-                <input type="text" id="custName" placeholder="Örn: Ahmet Yılmaz">
+                <input type="text" id="custName" placeholder="Ad Soyad giriniz">
             </div>
         </div>
 
@@ -182,12 +94,12 @@
             </div>
             <div class="form-group">
                 <label>Açık Adresiniz</label>
-                <textarea id="newAddress" rows="3" placeholder="Mahalle, Sokak, No, Daire..."></textarea>
+                <textarea id="newAddress" rows="2" placeholder="Mahalle, Sokak, No..."></textarea>
             </div>
         </div>
 
         <div class="form-group">
-            <label>Sipariş Adedi</label>
+            <label>Damacana Adedi</label>
             <div class="qty-container">
                 <button class="qty-btn" onclick="changeQty(-1)">-</button>
                 <span id="qtyDisplay">1</span>
@@ -196,12 +108,13 @@
         </div>
 
         <button class="submit-btn" onclick="sendOrder()">
-            Siparişi Tamamla
+            SİPARİŞ VER
         </button>
     </div>
 
-    <div class="info-text">
-        Keskin Su güvencesiyle kapınızda.
+    <div class="footer-note">
+        Siparişinizi tamamlamak için WhatsApp'a yönlendirileceksiniz.<br>
+        <b>Keskin Su © 2024</b>
     </div>
 </div>
 
@@ -231,25 +144,20 @@
             const name = document.getElementById('custName').value;
             if (!name) return alert("Lütfen adınızı girin.");
             message = `*KESKİN SU SİPARİŞİ*\n` +
-                      `--------------------------\n` +
                       `👤 *Müşteri:* ${name} (Kayıtlı)\n` +
                       `📦 *Adet:* ${quantity} Damacana\n` +
-                      `--------------------------\n` +
-                      `Lütfen kayıtlı adresime getirin.`;
+                      `📍 *Adres:* Kayıtlı Adres`;
         } else {
             const name = document.getElementById('newName').value;
             const address = document.getElementById('newAddress').value;
-            if (!name || !address) return alert("Lütfen bilgileri eksiksiz girin.");
-            message = `*KESKİN SU SİPARİŞİ (YENİ)*\n` +
-                      `--------------------------\n` +
+            if (!name || !address) return alert("Lütfen bilgileri doldurun.");
+            message = `*KESKİN SU (YENİ MÜŞTERİ)*\n` +
                       `👤 *Müşteri:* ${name}\n` +
                       `📍 *Adres:* ${address}\n` +
-                      `📦 *Adet:* ${quantity} Damacana\n` +
-                      `--------------------------`;
+                      `📦 *Adet:* ${quantity} Damacana`;
         }
 
-        const url = `https://wa.me/${myPhone}?text=${encodeURIComponent(message)}`;
-        window.open(url, '_blank');
+        window.open(`https://wa.me/${myPhone}?text=${encodeURIComponent(message)}`, '_blank');
     }
 </script>
 
