@@ -3,219 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Su Sipariş Sistemi</title>
+    <title>Hızlı Su Siparişi</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0077b6;
-            --secondary: #00b4d8;
             --success: #25D366;
-            --bg: #f0f2f5;
-            --text: #1d1d1f;
+            --bg: #f8fafc;
+            --card: #ffffff;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg);
-            color: var(--text);
             margin: 0;
-            padding: 10px;
+            padding: 15px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .app-container {
+        .order-card {
             width: 100%;
-            max-width: 450px;
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            background: var(--card);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
         }
 
-        .header {
+        .brand {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
-        .header h1 {
+        .brand h1 {
             color: var(--primary);
-            font-size: 24px;
+            font-size: 22px;
             margin: 0;
-            text-transform: uppercase;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            background: #e4e6eb;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            font-size: 14px;
-            color: #444;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1.5px solid #ddd;
-            border-radius: 10px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        input:focus {
-            border-color: var(--primary);
-            outline: none;
-        }
-
-        .btn-send {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--success);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
 
-        .btn-send:active {
-            transform: scale(0.98);
+        .type-selector {
+            display: flex;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 12px;
+            margin-bottom: 25px;
         }
 
-        .footer-info {
+        .type-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            color: #64748b;
+            background: transparent;
+        }
+
+        .type-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            background: #fff;
+        }
+
+        .qty-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 12px;
+            justify-content: space-between;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #qtyDisplay {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.97);
+        }
+
+        .info-text {
             text-align: center;
             font-size: 12px;
-            color: #888;
+            color: #94a3b8;
             margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="header">
-        <h1>💧 Su Sipariş Paneli</h1>
+<div class="order-card">
+    <div class="brand">
+        <h1>💧 Su Sipariş Formu</h1>
     </div>
 
-    <div class="tabs">
-        <button id="tabOld" class="tab-btn active" onclick="switchTab('old')">Kayıtlı</button>
-        <button id="tabNew" class="tab-btn" onclick="switchTab('new')">Yeni Müşteri</button>
+    <div class="type-selector">
+        <button id="btnOld" class="type-btn active" onclick="setMode('old')">Kayıtlı Müşteriyim</button>
+        <button id="btnNew" class="type-btn" onclick="setMode('new')">Yeni Müşteriyim</button>
     </div>
 
-    <!-- KAYITLI MÜŞTERİ PANELİ -->
-    <div id="panelOld">
-        <label>Müşteri Seçin</label>
-        <select id="regCustomer">
-            <option value="" data-address="">-- Seçiniz --</option>
-            <option value="Ahmet Yılmaz" data-address="Atatürk Mah. 45. Sokak No:12">Ahmet Yılmaz (Merkez)</option>
-            <option value="Mehmet Demir" data-address="Yavuz Selim Cad. Gül Apt. Kat:2">Mehmet Demir (Çarşı)</option>
-            <option value="Ayşe Su" data-address="Lale Sitesi B Blok D:4">Ayşe Su (Konutlar)</option>
-        </select>
-        
-        <label>Adet (Damacana)</label>
-        <input type="number" id="regQty" value="1" min="1">
+    <div id="formContent">
+        <!-- Kayıtlı müşteri için sadece isim yeterli (WhatsApp'tan adresini zaten biliyorsun) -->
+        <div id="oldFields">
+            <div class="form-group">
+                <label>Adınız Soyadınız</label>
+                <input type="text" id="custName" placeholder="Örn: Ahmet Yılmaz">
+            </div>
+        </div>
+
+        <!-- Yeni müşteri için detaylı alanlar -->
+        <div id="newFields" style="display:none;">
+            <div class="form-group">
+                <label>Adınız Soyadınız</label>
+                <input type="text" id="newName" placeholder="Ad Soyad">
+            </div>
+            <div class="form-group">
+                <label>Açık Adresiniz</label>
+                <textarea id="newAddress" rows="3" placeholder="Mahalle, Sokak, No, Daire..."></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Sipariş Adedi (Damacana)</label>
+            <div class="qty-container">
+                <button class="qty-btn" onclick="changeQty(-1)">-</button>
+                <span id="qtyDisplay">1</span>
+                <button class="qty-btn" onclick="changeQty(1)">+</button>
+            </div>
+        </div>
+
+        <button class="submit-btn" onclick="sendOrder()">
+            Siparişi WhatsApp ile Gönder
+        </button>
     </div>
 
-    <!-- YENİ MÜŞTERİ PANELİ -->
-    <div id="panelNew" style="display:none;">
-        <label>Müşteri Ad Soyad</label>
-        <input type="text" id="newName" placeholder="Ad Soyad">
-        
-        <label>Telefon</label>
-        <input type="tel" id="newPhone" placeholder="05xx xxx xx xx">
-        
-        <label>Adres</label>
-        <textarea id="newAddress" rows="3" placeholder="Mahalle, Sokak, Daire..."></textarea>
-        
-        <label>Adet</label>
-        <input type="number" id="newQty" value="1" min="1">
-    </div>
-
-    <button class="btn-send" onclick="sendToWhatsApp()">
-        Siparişi WhatsApp'a Gönder
-    </button>
-
-    <div class="footer-info">
-        Hedef Numara: +90 536 645 51 31
+    <div class="info-text">
+        Tıkladığınızda WhatsApp uygulaması açılacaktır.
     </div>
 </div>
 
 <script>
-    let currentTab = 'old';
+    let mode = 'old';
+    let quantity = 1;
 
-    function switchTab(tab) {
-        currentTab = tab;
-        document.getElementById('panelOld').style.display = tab === 'old' ? 'block' : 'none';
-        document.getElementById('panelNew').style.display = tab === 'new' ? 'block' : 'none';
-        document.getElementById('tabOld').className = tab === 'old' ? 'tab-btn active' : 'tab-btn';
-        document.getElementById('tabNew').className = tab === 'new' ? 'tab-btn active' : 'tab-btn';
+    function setMode(m) {
+        mode = m;
+        document.getElementById('btnOld').classList.toggle('active', m === 'old');
+        document.getElementById('btnNew').classList.toggle('active', m === 'new');
+        document.getElementById('oldFields').style.display = m === 'old' ? 'block' : 'none';
+        document.getElementById('newFields').style.display = m === 'new' ? 'block' : 'none';
     }
 
-    function sendToWhatsApp() {
-        const targetNumber = "905366455131";
+    function changeQty(val) {
+        quantity += val;
+        if (quantity < 1) quantity = 1;
+        document.getElementById('qtyDisplay').innerText = quantity;
+    }
+
+    function sendOrder() {
+        const myPhone = "905366455131"; // Senin numaran
         let message = "";
 
-        if (currentTab === 'old') {
-            const select = document.getElementById('regCustomer');
-            const name = select.value;
-            const address = select.options[select.selectedIndex].getAttribute('data-address');
-            const qty = document.getElementById('regQty').value;
-
-            if (!name) { alert("Lütfen müşteri seçin!"); return; }
-
-            message = `💧 *YENİ SU SİPARİŞİ (Kayıtlı)*\n` +
-                      `--------------------------\n` +
-                      `👤 *Müşteri:* ${name}\n` +
-                      `📍 *Adres:* ${address}\n` +
-                      `📦 *Adet:* ${qty} Damacana\n` +
-                      `--------------------------`;
+        if (mode === 'old') {
+            const name = document.getElementById('custName').value;
+            if (!name) return alert("Lütfen adınızı girin.");
+            message = `💧 *SU SİPARİŞİ (Kayıtlı Müşteri)*\n\n` +
+                      `👤 *İsim:* ${name}\n` +
+                      `📦 *Adet:* ${quantity} Damacana\n\n` +
+                      `Lütfen her zamanki adresime getirin.`;
         } else {
             const name = document.getElementById('newName').value;
-            const phone = document.getElementById('newPhone').value;
             const address = document.getElementById('newAddress').value;
-            const qty = document.getElementById('newQty').value;
-
-            if (!name || !address) { alert("Lütfen isim ve adres girin!"); return; }
-
-            message = `💧 *YENİ MÜŞTERİ SİPARİŞİ*\n` +
-                      `--------------------------\n` +
-                      `👤 *Müşteri:* ${name}\n` +
-                      `📞 *Tel:* ${phone}\n` +
+            if (!name || !address) return alert("Lütfen isim ve adresinizi eksiksiz girin.");
+            message = `💧 *YENİ MÜŞTERİ SİPARİŞİ*\n\n` +
+                      `👤 *İsim:* ${name}\n` +
                       `📍 *Adres:* ${address}\n` +
-                      `📦 *Adet:* ${qty} Damacana\n` +
-                      `--------------------------`;
+                      `📦 *Adet:* ${quantity} Damacana`;
         }
 
-        const waUrl = `https://wa.me/${targetNumber}?text=${encodeURIComponent(message)}`;
-        window.open(waUrl, '_blank');
+        const url = `https://wa.me/${myPhone}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
     }
 </script>
 
